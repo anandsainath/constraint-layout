@@ -1,0 +1,35 @@
+<edu.gatech.constraints.library.LinearConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:constraint="http://schemas.android.com/apk/res/edu.gatech.constraints.demo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/TV_DummyText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:text="@string/text1Caption"
+        android:textColor="@android:color/black"
+        constraint:constraint_expr="self.x = ( @id/TV_DummyText2.x + @id/TV_DummyText2.w ) - self.w"
+        constraint:constraint_expr_strength="required" />
+
+    <TextView
+        android:id="@+id/TV_DummyText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:text="@string/text2Caption"
+        android:textColor="@android:color/black"
+        constraint:fixX="true"
+        constraint:fixY="true" />
+
+</edu.gatech.constraints.library.LinearConstraintLayout>

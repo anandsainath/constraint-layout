@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CLP">
+        <attr name="constraint_expr" format="string" />
+        <attr name="constraint_expr_strength" format="string">
+            <enum name="required" value="1" />
+            <enum name="strong" value="2" />
+            <enum name="medium" value="3" />
+            <enum name="weak" value="4" />
+        </attr>
+        <attr name="fixWidth" format="boolean" />
+        <attr name="fixHeight" format="boolean" />
+        <attr name="fixX" format="boolean" />
+        <attr name="fixY" format="boolean" />
+    </declare-styleable>
+
+</resources>
