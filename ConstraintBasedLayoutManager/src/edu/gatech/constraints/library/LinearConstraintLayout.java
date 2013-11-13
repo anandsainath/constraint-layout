@@ -161,7 +161,6 @@ public class LinearConstraintLayout extends LinearLayout {
 		ClLinearExpression cle = null;
 		cle = (ClLinearExpression) evaluatePostFixExpression(new InfixToPostfix().convertInfixToPostfix(parts[1]),
 				params, source);
-		//Comment to test eclipse commit functionality
 		Functions.d("Going to call getVariable for the LHS in addEqualityConstraint");
 		ClVariable lhs = getVariable(parts[0], source);
 		return new ClLinearEquation(lhs, cle, params.constraint_expr_strength);
