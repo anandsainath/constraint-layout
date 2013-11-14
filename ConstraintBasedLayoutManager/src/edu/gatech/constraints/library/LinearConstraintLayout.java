@@ -60,6 +60,15 @@ public class LinearConstraintLayout extends LinearLayout {
 	}
 
 	/**
+	 * Allows the children to measure themselves and then compute the measures
+	 * of this view based on the children
+	 */
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+	}
+
+	/**
 	 * Function that will solve the constraints and will layout the children
 	 * once the constraints are met.
 	 */
@@ -67,7 +76,6 @@ public class LinearConstraintLayout extends LinearLayout {
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
 		if (changed) {
-
 			final int count = getChildCount();
 			for (int i = 0; i < count; i++) {
 				View view = getChildAt(i);
@@ -195,7 +203,7 @@ public class LinearConstraintLayout extends LinearLayout {
 	private ClVariable getVariable(String notation, ViewElement source) {
 		ViewElement temp = null;
 		ClVariable variable = null;
-		Functions.d("GetVariable called, Notation:"+notation+", source:");
+		Functions.d("GetVariable called, Notation:" + notation + ", source:");
 		if (notation.contains(DEPENDENT_VAR)) {
 			String dependent_name = notation.replace(DEPENDENT_VAR, "");
 			String names[] = dependent_name.split("[.]", 2);
@@ -203,8 +211,8 @@ public class LinearConstraintLayout extends LinearLayout {
 			temp = elements.get(resId);
 		} else if (notation.contains("self")) {
 			temp = source;
-		} else if(notation.length() > 0){
-			Functions.d(notation +" is being parsed as an integer!");
+		} else if (notation.length() > 0) {
+			Functions.d(notation + " is being parsed as an integer!");
 			return new ClVariable(Integer.parseInt(notation));
 		}
 
@@ -229,15 +237,6 @@ public class LinearConstraintLayout extends LinearLayout {
 			}
 		}
 		return contains;
-	}
-
-	/**
-	 * Allows the children to measure themselves and then compute the measures
-	 * of this view based on the children
-	 */
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
 	/**
@@ -275,9 +274,9 @@ public class LinearConstraintLayout extends LinearLayout {
 	/*** Custom Layout parameters class ***/
 	public static class LayoutParams extends LinearLayout.LayoutParams {
 
-		String constraint_expr;
-		ClStrength constraint_expr_strength = ClStrength.weak;
-		Boolean fixWidth, fixHeight, fixX, fixY;
+		public String constraint_expr;
+		public ClStrength constraint_expr_strength = ClStrength.weak;
+		public Boolean fixWidth, fixHeight, fixX, fixY;
 
 		public static final int INVALID_ID = -1;
 
@@ -313,6 +312,19 @@ public class LinearConstraintLayout extends LinearLayout {
 
 		public LayoutParams(int width, int height) {
 			super(width, height);
+			if (fixWidth == null) {
+				fixWidth = true;
+			}
+			if (fixHeight == null) {
+				fixHeight = true;
+			}
+			if (fixX == null) {
+				fixX = false;
+			}
+			if (fixY == null) {
+				fixY = false;
+			}
+
 		}
 
 		public LayoutParams(ViewGroup.LayoutParams source) {

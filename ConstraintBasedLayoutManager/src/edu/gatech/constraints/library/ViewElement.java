@@ -33,6 +33,6 @@ public class ViewElement {
 		}
 		view.setX((float) topLeft.Xvalue());
 		view.setY((float) topLeft.Yvalue());
-		// view.setLayoutParams(new LayoutParams(r, b));
+		view.setLayoutParams(new LinearConstraintLayout.LayoutParams(r, b));
 	}
 }
