@@ -56,7 +56,7 @@ public class ClPoint {
     }
 
     public String toString() {
-        return "(" + _clv_x.toString() + ", " + _clv_y.toString() + ")";
+        return "X: " + _clv_x.toString() + ", Y: " + _clv_y.toString();
     }
 
     private ClVariable _clv_x;

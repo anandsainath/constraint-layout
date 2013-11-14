@@ -108,16 +108,19 @@ public class LinearConstraintLayout extends LinearLayout {
 				.getLayoutParams();
 		if (params != null) {
 			if (params.constraint_expr != null) {
-				if (params.constraint_expr.contains("LEQ")) {
-					solver.addConstraint(getInequalityConstraint(params, CL.Op.LEQ, element));
-					Functions.d("A LEQ constraint must have been added!");
-				} else if (params.constraint_expr.contains("GEQ")) {
-					solver.addConstraint(getInequalityConstraint(params, CL.Op.GEQ, element));
-					Functions.d("A GEQ constraint must have been added!");
-				} else if (params.constraint_expr.contains("=")) {
-					// equality constraint.
-					solver.addConstraint(addEqualityConstraint(params, element));
-					Functions.d("A constraint must have been added!");
+				String[] constraints = params.constraint_expr.split(";");
+				for (String constraint : constraints) {
+					if (constraint.contains("LEQ")) {
+						solver.addConstraint(getInequalityConstraint(CL.Op.LEQ, element, constraint));
+						Functions.d("A LEQ constraint must have been added!");
+					} else if (constraint.contains("GEQ")) {
+						solver.addConstraint(getInequalityConstraint(CL.Op.GEQ, element, constraint));
+						Functions.d("A GEQ constraint must have been added!");
+					} else if (constraint.contains("=")) {
+						// equality constraint.
+						solver.addConstraint(addEqualityConstraint(params, element, constraint));
+						Functions.d("A constraint must have been added!");
+					}
 				}
 			}// end params.constraint_expr != null
 
@@ -145,37 +148,36 @@ public class LinearConstraintLayout extends LinearLayout {
 		}// end params != null
 	}
 
-	private ClLinearInequality getInequalityConstraint(LinearConstraintLayout.LayoutParams params, CL.Op operator,
-			ViewElement source) throws ExCLInternalError, ExCLNonlinearExpression {
+	private ClLinearInequality getInequalityConstraint(CL.Op operator, ViewElement source, String constraint)
+			throws ExCLInternalError, ExCLNonlinearExpression {
 		ClLinearExpression cle = null;
 		String parts[] = null;
 		switch (operator) {
 		case GEQ:
-			parts = params.constraint_expr.split("GEQ", 2);
+			parts = constraint.split("GEQ", 2);
 			break;
 		case LEQ:
-			parts = params.constraint_expr.split("LEQ", 2);
+			parts = constraint.split("LEQ", 2);
 			break;
 		}
 		cle = (ClLinearExpression) evaluatePostFixExpression(new InfixToPostfix().convertInfixToPostfix(parts[1]),
-				params, source);
+				source);
 		ClVariable lhs = getVariable(parts[0], source);
 		return new ClLinearInequality(lhs, operator, cle);
 	}
 
-	private ClLinearEquation addEqualityConstraint(LinearConstraintLayout.LayoutParams params, ViewElement source)
-			throws Exception {
-		String parts[] = params.constraint_expr.split("=", 2);
+	private ClLinearEquation addEqualityConstraint(LinearConstraintLayout.LayoutParams params, ViewElement source,
+			String constraint) throws Exception {
+		String parts[] = constraint.split("=", 2);
 		ClLinearExpression cle = null;
 		cle = (ClLinearExpression) evaluatePostFixExpression(new InfixToPostfix().convertInfixToPostfix(parts[1]),
-				params, source);
+				source);
 		Functions.d("Going to call getVariable for the LHS in addEqualityConstraint");
 		ClVariable lhs = getVariable(parts[0], source);
 		return new ClLinearEquation(lhs, cle, params.constraint_expr_strength);
 	}
 
-	private CL evaluatePostFixExpression(List<String> postFixExpr, LinearConstraintLayout.LayoutParams params,
-			ViewElement source) throws ExCLNonlinearExpression {
+	private CL evaluatePostFixExpression(List<String> postFixExpr, ViewElement source) throws ExCLNonlinearExpression {
 		Iterator<String> iterator = postFixExpr.iterator();
 		MyStackList<ClLinearExpression> stack = new MyStackList<ClLinearExpression>();
 
@@ -216,13 +218,14 @@ public class LinearConstraintLayout extends LinearLayout {
 			return new ClVariable(Integer.parseInt(notation));
 		}
 
-		if (notation.contains("w")) {
+		if (notation.contains(".w")) {
+			Functions.d("Width procesed: " + temp.dimension.widthValue() + " notation: " + notation);
 			variable = temp.dimension.Width();
-		} else if (notation.contains("h")) {
+		} else if (notation.contains(".h")) {
 			variable = temp.dimension.Height();
-		} else if (notation.contains("x")) {
+		} else if (notation.contains(".x")) {
 			variable = temp.topLeft.X();
-		} else if (notation.contains("y")) {
+		} else if (notation.contains(".y")) {
 			variable = temp.topLeft.Y();
 		}
 		return variable;

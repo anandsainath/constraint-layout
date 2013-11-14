@@ -26,6 +26,11 @@
             android:name="edu.gatech.constraints.demo.DynamicActivity"
             android:label="@string/title_activity_dynamic" >
         </activity>
+        <activity
+            android:name="edu.gatech.constraints.demo.DynamicLayoutEditor"
+            android:label="@string/title_activity_dynamic_layout_editor"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
     </application>
 
 </manifest>

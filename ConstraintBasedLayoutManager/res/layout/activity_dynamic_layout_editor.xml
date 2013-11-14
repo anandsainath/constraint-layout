@@ -1,0 +1,132 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:constraint="http://schemas.android.com/apk/res/edu.gatech.constraints.demo"
+    tools:context=".DynamicLayoutEditor" >
+
+    <!-- Login progress -->
+
+    <LinearLayout
+        android:id="@+id/login_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/login_status_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/login_progress_signing_in"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <!-- Editor form -->
+
+    <ScrollView
+        android:id="@+id/editor_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <edu.gatech.constraints.library.LinearConstraintLayout
+            style="@style/LoginFormContainer"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/TV_ComponentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_component_name"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:singleLine="true"
+                constraint:fixX="true"
+                constraint:fixY="true" />
+
+            <Spinner
+                android:id="@+id/S_ComponentType"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <TextView
+                android:id="@+id/TV_ConstraintLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:text="@string/constraint_label"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:id="@+id/CB_FitWidth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/fix_width"
+                android:textSize="16sp"
+                constraint:fixX="true"
+                constraint:fixY="true" />
+
+            <CheckBox
+                android:id="@+id/CB_FitHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/fix_height"
+                android:textSize="16sp"
+                constraint:constraint_expr="self.x = @id/CB_FitWidth.x + @id/CB_FitWidth.w ; self.y =  @id/CB_FitWidth.y"
+                constraint:constraint_expr_strength="required" />
+
+            <CheckBox
+                android:id="@+id/CB_FitX"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/fix_x"
+                android:textSize="16sp"
+                constraint:constraint_expr="self.x = @id/CB_FitWidth.x ; self.y = @id/CB_FitWidth.y + @id/CB_FitWidth.h"
+                constraint:constraint_expr_strength="required" />
+
+            <CheckBox
+                android:id="@+id/CB_FitY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/fix_y"
+                android:textSize="16sp"
+                constraint:constraint_expr="self.x = @id/CB_FitHeight.x ; self.y = @id/CB_FitX.y"
+                constraint:constraint_expr_strength="required" />
+
+            <Button
+                android:id="@+id/Btn_ViewLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:text="@string/action_view_layout"
+                constraint:constraint_expr="self.y = @id/CB_FitX.y + @id/CB_FitX.h"
+                constraint:constraint_expr_strength="required" />
+
+            <Button
+                android:id="@+id/Btn_AddComponent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:text="@string/action_add_component"
+                constraint:constraint_expr="self.x = @id/Btn_ViewLayout.x + @id/Btn_ViewLayout.w ; self.y =  @id/Btn_ViewLayout.y"
+                constraint:constraint_expr_strength="required" />
+        </edu.gatech.constraints.library.LinearConstraintLayout>
+    </ScrollView>
+
+</merge>

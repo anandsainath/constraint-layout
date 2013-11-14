@@ -7,5 +7,14 @@
     <string name="text1Caption">Dummy Text 1</string>
     <string name="text2Caption">Dummy Text 2 that is way longer than the above dummy text, but isn\'t constraint based layout great?</string>
     <string name="title_activity_dynamic">DynamicActivity</string>
+    <string name="fix_width">Fix Width</string>
+    <string name="fix_height">Fix Height</string>
+    <string name="fix_x">Fix X</string>
+    <string name="fix_y">Fix Y</string>
+    <string name="constraint_label">Standard Constraints</string>
+    <string-array name="component_type">
+        <item>EditText</item>
+        <item>Button</item>
+    </string-array>
 
 </resources>
