@@ -196,7 +196,13 @@ public class LinearConstraintLayout extends LinearLayout {
 				}
 				stack.push(b);
 			} else {
-				stack.add(new ClLinearExpression(getVariable(str, source)));
+				try {
+					double constant = Double.parseDouble(str);
+					stack.add(new ClLinearExpression(constant));
+				}
+				catch (NumberFormatException nfe) {
+					stack.add(new ClLinearExpression(getVariable(str, source)));
+				}
 			}
 		}
 		return stack.pop();
