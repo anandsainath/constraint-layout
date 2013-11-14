@@ -46,13 +46,15 @@ public class InfixToPostfix {
 					if (stackOperatorPrecedence < currentOperatorPrecedence || stackTop.equals("(")) {
 						operatorStack.push(part);
 					} else {
-						while (currentOperatorPrecedence < stackOperatorPrecedence) {
+						while (currentOperatorPrecedence <= stackOperatorPrecedence && operatorStack.size() != 0) {
 							stackTop = operatorStack.pop();
 							if (!stackTop.equals(")") && !stackTop.equals("(")) {
-								AL.add(operatorStack.pop());
+								AL.add(stackTop);
 							}
-							stackTop = operatorStack.peep();
-							stackOperatorPrecedence = operators.get(stackTop);
+							if (operatorStack.size() != 0) {
+								stackTop = operatorStack.peep();
+								stackOperatorPrecedence = operators.get(stackTop);
+							}
 						}
 						operatorStack.push(part);
 					}
