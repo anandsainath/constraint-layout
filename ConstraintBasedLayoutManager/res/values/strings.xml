@@ -12,9 +12,18 @@
     <string name="fix_x">Fix X</string>
     <string name="fix_y">Fix Y</string>
     <string name="constraint_label">Standard Constraints</string>
+    <string name="secondary_constraint_label">Secondary Constraints</string>
+    <string name="prompt_constraint_expr">Constraint Expression</string>
+
     <string-array name="component_type">
         <item>EditText</item>
         <item>Button</item>
+    </string-array>
+    <string-array name="constraint_strength">
+        <item>Required</item>
+        <item>Strong</item>
+        <item>Medium</item>
+        <item>Weak</item>
     </string-array>
 
 </resources>

@@ -64,6 +64,7 @@
                 android:gravity="center_horizontal"
                 android:paddingTop="10dp"
                 android:text="@string/constraint_label"
+                android:textColor="@android:color/secondary_text_light"
                 android:textSize="16sp" />
 
             <CheckBox
@@ -106,6 +107,29 @@
                 constraint:constraint_expr="self.x = @id/CB_FitHeight.x ; self.y = @id/CB_FitX.y"
                 constraint:constraint_expr_strength="required" />
 
+            <TextView
+                android:id="@+id/TV_SecondaryConstraintLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:text="@string/secondary_constraint_label"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="16sp"
+                constraint:constraint_expr="self.y = @id/CB_FitX.y + @id/CB_FitX.h"
+                constraint:constraint_expr_strength="required" />
+
+            <EditText
+                android:id="@+id/ET_ConstraintExpr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_constraint_expr" />
+
+            <Spinner
+                android:id="@+id/S_ConstraintStrength"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/Btn_ViewLayout"
                 android:layout_width="wrap_content"
@@ -113,9 +137,7 @@
                 android:layout_marginTop="25dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
-                android:text="@string/action_view_layout"
-                constraint:constraint_expr="self.y = @id/CB_FitX.y + @id/CB_FitX.h"
-                constraint:constraint_expr_strength="required" />
+                android:text="@string/action_view_layout" />
 
             <Button
                 android:id="@+id/Btn_AddComponent"
@@ -124,7 +146,7 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:text="@string/action_add_component"
-                constraint:constraint_expr="self.x = @id/Btn_ViewLayout.x + @id/Btn_ViewLayout.w ; self.y =  @id/Btn_ViewLayout.y"
+                constraint:constraint_expr="self.x = @id/Btn_ViewLayout.x + @id/Btn_ViewLayout.w + 10 ; self.y =  @id/Btn_ViewLayout.y"
                 constraint:constraint_expr_strength="required" />
         </edu.gatech.constraints.library.LinearConstraintLayout>
     </ScrollView>

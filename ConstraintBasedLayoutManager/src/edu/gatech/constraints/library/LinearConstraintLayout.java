@@ -84,9 +84,15 @@ public class LinearConstraintLayout extends LinearLayout {
 			}
 
 			try {
-				for (int i = 0; i < elements.size(); i++) {
-					addConstraints(elements.get(elements.keyAt(i)));
+				/**
+				 * Separate loop for adding constraints as view elements might
+				 * be dependent on some other view element that occurs lower
+				 * than it in the view hierarchy
+				 */
+				for (int pos = 0; pos < elements.size(); pos++) {
+					addConstraints(elements.get(elements.keyAt(pos)), pos);
 				}
+				// invoking the solver only once in the last
 				solver.solve();
 
 			} catch (Exception e) {
@@ -103,10 +109,59 @@ public class LinearConstraintLayout extends LinearLayout {
 		}
 	}
 
-	public void addConstraints(ViewElement element) throws Exception {
+	public void addConstraints(ViewElement element, int position) throws Exception {
 		LinearConstraintLayout.LayoutParams params = (LinearConstraintLayout.LayoutParams) element.view
 				.getLayoutParams();
 		if (params != null) {
+			if (params.constraint_expr == null) {
+				/**
+				 * Add constraint so that the linear layout's properties are
+				 * followed in the new layout as well
+				 */
+				switch (position) {
+				case 0:
+					/**
+					 * Element is the first one in its hierarchy and would be
+					 * placed properly.
+					 */
+					break;
+				default:
+					/**
+					 * Any other case, check if any of its parents have a
+					 * constraint specified
+					 */
+					ViewElement aboveSibbling = elements.get(elements.keyAt(position - 1));
+					LinearConstraintLayout.LayoutParams aboveSibblingParams = (LinearConstraintLayout.LayoutParams) aboveSibbling.view
+							.getLayoutParams();
+					if (aboveSibblingParams.constraint_expr == null) {
+						/**
+						 * nothing to be done here, as the parent linear layout
+						 * manager will take care of its alignment
+						 */
+					} else {
+						/**
+						 * add a constraint based on whether the linear layout
+						 * is oriented horizontally or vertically
+						 */
+						Functions.d("Position: " + position);
+						String[] resName = getResources().getResourceName(aboveSibbling.view.getId()).split(":");
+						String resId = "@" + resName[1].trim();
+						Functions.d("Going to create constraints based on : " + resId);
+						switch (getOrientation()) {
+						case HORIZONTAL:
+							params.constraint_expr = "self.x = " + resId + ".x + " + resId + ".w + "
+									+ params.leftMargin;
+							params.constraint_expr_strength = ClStrength.strong;
+							break;
+						case VERTICAL:
+							params.constraint_expr = "self.y = " + resId + ".y + " + resId + ".h + " + params.topMargin;
+							params.constraint_expr_strength = ClStrength.strong;
+							break;
+						}
+					}
+				}
+			}
+
 			if (params.constraint_expr != null) {
 				String[] constraints = params.constraint_expr.split(";");
 				for (String constraint : constraints) {
@@ -122,7 +177,7 @@ public class LinearConstraintLayout extends LinearLayout {
 						Functions.d("A constraint must have been added!");
 					}
 				}
-			}// end params.constraint_expr != null
+			}
 
 			ClStayConstraint stayConstraint;
 
@@ -199,8 +254,7 @@ public class LinearConstraintLayout extends LinearLayout {
 				try {
 					double constant = Double.parseDouble(str);
 					stack.add(new ClLinearExpression(constant));
-				}
-				catch (NumberFormatException nfe) {
+				} catch (NumberFormatException nfe) {
 					stack.add(new ClLinearExpression(getVariable(str, source)));
 				}
 			}
