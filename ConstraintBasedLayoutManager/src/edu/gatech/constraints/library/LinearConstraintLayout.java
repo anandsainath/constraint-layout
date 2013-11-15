@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import edu.gatech.constraints.cassowary.CL;
 import edu.gatech.constraints.cassowary.ClLinearEquation;
 import edu.gatech.constraints.cassowary.ClLinearExpression;
 import edu.gatech.constraints.cassowary.ClLinearInequality;
+import edu.gatech.constraints.cassowary.ClPoint;
 import edu.gatech.constraints.cassowary.ClSimplexSolver;
 import edu.gatech.constraints.cassowary.ClStayConstraint;
 import edu.gatech.constraints.cassowary.ClStrength;
@@ -38,12 +40,16 @@ public class LinearConstraintLayout extends LinearLayout {
 	SparseArray<ViewElement> elements;
 	public static final String DEPENDENT_VAR = "@id/";
 	private static final String[] operators = { "+", "-", "/", "*" };
+	ClPoint screenDimensions;
+	DisplayMetrics displayMetrics;
 
 	public LinearConstraintLayout(Context context) {
 		super(context);
 		solver = new ClSimplexSolver();
 		solver.setAutosolve(false);
 		elements = new SparseArray<ViewElement>();
+		displayMetrics = context.getResources().getDisplayMetrics();
+		screenDimensions = new ClPoint(displayMetrics.widthPixels, displayMetrics.heightPixels);
 	}
 
 	public LinearConstraintLayout(Context context, AttributeSet attrs) {
@@ -51,6 +57,8 @@ public class LinearConstraintLayout extends LinearLayout {
 		solver = new ClSimplexSolver();
 		solver.setAutosolve(false);
 		elements = new SparseArray<ViewElement>();
+		displayMetrics = context.getResources().getDisplayMetrics();
+		screenDimensions = new ClPoint(displayMetrics.widthPixels, displayMetrics.heightPixels);
 	}
 
 	public LinearConstraintLayout(Context context, AttributeSet attrs, int defStyle) {
@@ -58,6 +66,8 @@ public class LinearConstraintLayout extends LinearLayout {
 		solver = new ClSimplexSolver();
 		solver.setAutosolve(false);
 		elements = new SparseArray<ViewElement>();
+		displayMetrics = context.getResources().getDisplayMetrics();
+		screenDimensions = new ClPoint(displayMetrics.widthPixels, displayMetrics.heightPixels);
 	}
 
 	/**
@@ -228,6 +238,7 @@ public class LinearConstraintLayout extends LinearLayout {
 		ClLinearExpression cle = null;
 		cle = (ClLinearExpression) evaluatePostFixExpression(new InfixToPostfix().convertInfixToPostfix(parts[1]),
 				source);
+		Functions.d("The equation is "+cle.toString());
 		Functions.d("Going to call getVariable for the LHS in addEqualityConstraint");
 		ClVariable lhs = getVariable(parts[0], source);
 		return new ClLinearEquation(lhs, cle, params.constraint_expr_strength);
@@ -249,6 +260,8 @@ public class LinearConstraintLayout extends LinearLayout {
 					b = b.minus(a);
 				} else if (str.equals("/")) {
 					b = b.divide(a);
+				} else if (str.equals("*")) {
+					b = b.times(a);
 				}
 				stack.push(b);
 			} else {
@@ -256,7 +269,16 @@ public class LinearConstraintLayout extends LinearLayout {
 					double constant = Double.parseDouble(str);
 					stack.add(new ClLinearExpression(constant));
 				} catch (NumberFormatException nfe) {
-					stack.add(new ClLinearExpression(getVariable(str, source)));
+					if (str.contains("screen")) {
+						if (str.contains("screen.height")) {
+							stack.add(new ClLinearExpression(this.screenDimensions.Yvalue()));
+						} else if (str.contains("screen.width")) {
+							stack.add(new ClLinearExpression(this.screenDimensions.Xvalue()));
+						}
+					} else {
+						Functions.d("Added new variable");
+						stack.add(new ClLinearExpression(getVariable(str, source)));
+					}
 				}
 			}
 		}
