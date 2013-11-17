@@ -14,26 +14,30 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="edu.gatech.constraints.demo.MainActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name="edu.gatech.constraints.demo.StaticDemo"
+            android:label="@string/static_demo" >
         </activity>
         <activity
-            android:name="edu.gatech.constraints.demo.DynamicActivity"
-            android:label="@string/title_activity_dynamic" >
+            android:name="edu.gatech.constraints.demo.DynamicDemo"
+            android:label="@string/dynamic_demo" >
         </activity>
         <activity
             android:name="edu.gatech.constraints.demo.DynamicLayoutEditor"
-            android:label="@string/title_activity_dynamic_layout_editor"
+            android:label="@string/dynamic_editor"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
             android:name="edu.gatech.constraints.demo.DynamicLayoutOutput"
             android:label="@string/title_activity_dynamic_layout_output" >
+        </activity>
+        <activity
+            android:name="edu.gatech.constraints.demo.AppHome"
+            android:label="@string/title_activity_app_home" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

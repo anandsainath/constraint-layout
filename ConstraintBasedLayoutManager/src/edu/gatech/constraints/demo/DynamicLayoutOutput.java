@@ -3,7 +3,6 @@ package edu.gatech.constraints.demo;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,13 +69,6 @@ public class DynamicLayoutOutput extends Activity {
 		lp.fixY = item.fixY;
 		view.setLayoutParams(lp);
 		return view;
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.dynamic_layout_output, menu);
-		return true;
 	}
 
 }

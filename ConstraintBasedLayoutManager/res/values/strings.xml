@@ -3,7 +3,6 @@
 
     <string name="app_name">Constraint Based Layout Manager</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="text1Caption">Dummy Text 1</string>
     <string name="text2Caption">Dummy Text 2 that is way longer than the above dummy text, but isn\'t constraint based layout great?</string>
     <string name="title_activity_dynamic">DynamicActivity</string>
@@ -14,6 +13,9 @@
     <string name="constraint_label">Standard Constraints</string>
     <string name="secondary_constraint_label">Secondary Constraints</string>
     <string name="prompt_constraint_expr">Constraint Expression</string>
+    <string name="static_demo">Static Constraint Demo</string>
+    <string name="dynamic_demo">Dynamic Constraint Demo</string>
+    <string name="dynamic_editor">Dynamic Layout Editor</string>
 
     <string-array name="component_type">
         <item>EditText</item>
@@ -48,5 +50,6 @@
     </string-array>
 
     <string name="title_activity_dynamic_layout_output">DynamicLayoutOutput</string>
+    <string name="title_activity_app_home">Constraint Layout Manager</string>
 
 </resources>

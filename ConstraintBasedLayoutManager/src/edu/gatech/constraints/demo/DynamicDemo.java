@@ -7,7 +7,7 @@ import android.widget.TextView;
 import edu.gatech.constraints.cassowary.ClStrength;
 import edu.gatech.constraints.library.LinearConstraintLayout;
 
-public class DynamicActivity extends Activity {
+public class DynamicDemo extends Activity {
 
 	private LinearConstraintLayout rootLayout;
 	private LinearConstraintLayout.LayoutParams rootParams;
