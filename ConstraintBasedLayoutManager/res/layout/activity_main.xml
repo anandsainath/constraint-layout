@@ -18,7 +18,7 @@
         android:background="@android:color/white"
         android:text="@string/text1Caption"
         android:textColor="@android:color/black"
-        constraint:constraint_expr="self.x = ( @id/TV_DummyText2.x + @id/TV_DummyText2.w ) - self.w"
+        constraint:constraint_expr="self.h = 200"
         constraint:constraint_expr_strength="required"/>
 
     <TextView
