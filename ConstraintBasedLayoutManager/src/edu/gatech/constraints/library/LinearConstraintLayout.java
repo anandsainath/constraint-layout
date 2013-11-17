@@ -23,6 +23,7 @@ import edu.gatech.constraints.cassowary.ClStrength;
 import edu.gatech.constraints.cassowary.ClVariable;
 import edu.gatech.constraints.cassowary.ExCLInternalError;
 import edu.gatech.constraints.cassowary.ExCLNonlinearExpression;
+import edu.gatech.constraints.cassowary.ExCLRequiredFailure;
 import edu.gatech.constraints.demo.Functions;
 import edu.gatech.constraints.demo.R;
 
@@ -101,7 +102,14 @@ public class LinearConstraintLayout extends LinearLayout {
 				 * 
 				 * Solver will automatically take the constraints as and when
 				 * they are added to the solver
+				 * 
+				 * Stay constraints need to be added first, followed by normal
+				 * constraints
 				 */
+				for (int pos = 0; pos < elements.size(); pos++) {
+					addStayConstraints(elements.get(elements.keyAt(pos)), pos);
+				}
+
 				for (int pos = 0; pos < elements.size(); pos++) {
 					addConstraints(elements.get(elements.keyAt(pos)), pos);
 				}
@@ -117,6 +125,31 @@ public class LinearConstraintLayout extends LinearLayout {
 			for (int i = 0; i < elements.size(); i++) {
 				elements.get(elements.keyAt(i)).setDimension();
 			}
+		}
+	}
+
+	private void addStayConstraints(ViewElement element, int position) throws ExCLRequiredFailure, ExCLInternalError {
+		ClStayConstraint stayConstraint;
+		LinearConstraintLayout.LayoutParams params = (LinearConstraintLayout.LayoutParams) element.view
+				.getLayoutParams();
+
+		if (params.fixWidth) {
+			stayConstraint = new ClStayConstraint(element.dimension.Width(), ClStrength.strong);
+			solver.addConstraint(stayConstraint);
+		}
+		if (params.fixHeight) {
+			stayConstraint = new ClStayConstraint(element.dimension.Height(), ClStrength.strong);
+			solver.addConstraint(stayConstraint);
+		}
+
+		if (params.fixX) {
+			stayConstraint = new ClStayConstraint(element.topLeft.X(), ClStrength.strong);
+			solver.addConstraint(stayConstraint);
+		}
+
+		if (params.fixY) {
+			stayConstraint = new ClStayConstraint(element.topLeft.Y(), ClStrength.strong);
+			solver.addConstraint(stayConstraint);
 		}
 	}
 
@@ -191,27 +224,6 @@ public class LinearConstraintLayout extends LinearLayout {
 				}
 			}
 
-			ClStayConstraint stayConstraint;
-
-			if (params.fixWidth) {
-				stayConstraint = new ClStayConstraint(element.dimension.Width(), ClStrength.strong);
-				solver.addConstraint(stayConstraint);
-			}
-			if (params.fixHeight) {
-				stayConstraint = new ClStayConstraint(element.dimension.Height(), ClStrength.strong);
-				solver.addConstraint(stayConstraint);
-			}
-
-			if (params.fixX) {
-				stayConstraint = new ClStayConstraint(element.topLeft.X(), ClStrength.strong);
-				solver.addConstraint(stayConstraint);
-			}
-
-			if (params.fixY) {
-				stayConstraint = new ClStayConstraint(element.topLeft.Y(), ClStrength.strong);
-				solver.addConstraint(stayConstraint);
-			}
-
 		}// end params != null
 	}
 
@@ -231,8 +243,7 @@ public class LinearConstraintLayout extends LinearLayout {
 				source);
 		if (parts[0].contains(".w")) {
 			source.setWidthConstraint();
-		}
-		else if (parts[0].contains(".h")) {
+		} else if (parts[0].contains(".h")) {
 			source.setHeightConstraint();
 		}
 		ClVariable lhs = getVariable(parts[0], source);
@@ -249,8 +260,7 @@ public class LinearConstraintLayout extends LinearLayout {
 		Functions.d("Going to call getVariable for the LHS in addEqualityConstraint");
 		if (parts[0].contains(".w")) {
 			source.setWidthConstraint();
-		}
-		else if (parts[0].contains(".h")) {
+		} else if (parts[0].contains(".h")) {
 			source.setHeightConstraint();
 		}
 		ClVariable lhs = getVariable(parts[0], source);
