@@ -8,6 +8,8 @@ public class ViewElement {
 	ClPoint topLeft;
 	ClDimension dimension;
 	View view;
+	boolean widthConstraint = false;
+	boolean heightConstraint = false;
 	private static final boolean DEBUG = true;
 
 	public ViewElement(View view) {
@@ -21,7 +23,23 @@ public class ViewElement {
 		Functions.d(topLeft.toString());
 		Functions.d(dimension.toString());
 	}
+	
+	public void setWidthConstraint() {
+		widthConstraint = true;
+	}
 
+	public void setHeightConstraint() {
+		heightConstraint = true;
+	}
+	
+	public boolean isWidthConstrained() {
+		return widthConstraint;
+	}
+	
+	public boolean isHeightConstrained() {
+		return heightConstraint;
+	}
+	
 	public void setDimension() {
 		int l = (int) topLeft.Xvalue();
 		int t = (int) topLeft.Yvalue();
@@ -33,6 +51,16 @@ public class ViewElement {
 		}
 		view.setX((float) topLeft.Xvalue());
 		view.setY((float) topLeft.Yvalue());
-		view.setLayoutParams(new LinearConstraintLayout.LayoutParams(r, b));
+		if (isWidthConstrained() && isHeightConstrained()) {
+			view.setLayoutParams(new LinearConstraintLayout.LayoutParams(r, b));			
+		} else if (isWidthConstrained()) {
+			Functions.d("Width is constrained");
+			view.setLayoutParams(new LinearConstraintLayout.LayoutParams(r, LinearConstraintLayout.LayoutParams.WRAP_CONTENT));			
+		} else if (isHeightConstrained()) {
+			
+			view.setLayoutParams(new LinearConstraintLayout.LayoutParams(LinearConstraintLayout.LayoutParams.WRAP_CONTENT, b));
+		} else {
+			view.setLayoutParams(new LinearConstraintLayout.LayoutParams(LinearConstraintLayout.LayoutParams.WRAP_CONTENT, LinearConstraintLayout.LayoutParams.WRAP_CONTENT));
+		}
 	}
 }

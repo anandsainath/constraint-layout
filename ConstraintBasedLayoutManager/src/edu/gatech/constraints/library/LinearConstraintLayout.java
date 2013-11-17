@@ -229,6 +229,12 @@ public class LinearConstraintLayout extends LinearLayout {
 		}
 		cle = (ClLinearExpression) evaluatePostFixExpression(new InfixToPostfix().convertInfixToPostfix(parts[1]),
 				source);
+		if (parts[0].contains(".w")) {
+			source.setWidthConstraint();
+		}
+		else if (parts[0].contains(".h")) {
+			source.setHeightConstraint();
+		}
 		ClVariable lhs = getVariable(parts[0], source);
 		return new ClLinearInequality(lhs, operator, cle);
 	}
@@ -241,6 +247,12 @@ public class LinearConstraintLayout extends LinearLayout {
 				source);
 		Functions.d("The equation is " + cle.toString());
 		Functions.d("Going to call getVariable for the LHS in addEqualityConstraint");
+		if (parts[0].contains(".w")) {
+			source.setWidthConstraint();
+		}
+		else if (parts[0].contains(".h")) {
+			source.setHeightConstraint();
+		}
 		ClVariable lhs = getVariable(parts[0], source);
 		return new ClLinearEquation(lhs, cle, params.constraint_expr_strength);
 	}
