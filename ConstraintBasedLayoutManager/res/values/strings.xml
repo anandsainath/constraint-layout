@@ -19,11 +19,34 @@
         <item>EditText</item>
         <item>Button</item>
     </string-array>
+    <string-array name="dimension">
+        <item>Match Parent</item>
+        <item>Wrap Content</item>
+    </string-array>
     <string-array name="constraint_strength">
         <item>Required</item>
         <item>Strong</item>
         <item>Medium</item>
         <item>Weak</item>
     </string-array>
+    <string-array name="res_ids">
+        <item>et1</item>
+        <item>et2</item>
+        <item>et3</item>
+        <item>et4</item>
+        <item>et5</item>
+        <item>tv1</item>
+        <item>tv2</item>
+        <item>tv3</item>
+        <item>tv4</item>
+        <item>tv5</item>
+        <item>btn1</item>
+        <item>btn2</item>
+        <item>btn3</item>
+        <item>btn4</item>
+        <item>btn5</item>
+    </string-array>
+
+    <string name="title_activity_dynamic_layout_output">DynamicLayoutOutput</string>
 
 </resources>

@@ -46,7 +46,6 @@ public class LinearConstraintLayout extends LinearLayout {
 	public LinearConstraintLayout(Context context) {
 		super(context);
 		solver = new ClSimplexSolver();
-		solver.setAutosolve(false);
 		elements = new SparseArray<ViewElement>();
 		displayMetrics = context.getResources().getDisplayMetrics();
 		screenDimensions = new ClPoint(displayMetrics.widthPixels, displayMetrics.heightPixels);
@@ -55,7 +54,6 @@ public class LinearConstraintLayout extends LinearLayout {
 	public LinearConstraintLayout(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 		solver = new ClSimplexSolver();
-		solver.setAutosolve(false);
 		elements = new SparseArray<ViewElement>();
 		displayMetrics = context.getResources().getDisplayMetrics();
 		screenDimensions = new ClPoint(displayMetrics.widthPixels, displayMetrics.heightPixels);
@@ -64,7 +62,6 @@ public class LinearConstraintLayout extends LinearLayout {
 	public LinearConstraintLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		solver = new ClSimplexSolver();
-		solver.setAutosolve(false);
 		elements = new SparseArray<ViewElement>();
 		displayMetrics = context.getResources().getDisplayMetrics();
 		screenDimensions = new ClPoint(displayMetrics.widthPixels, displayMetrics.heightPixels);
@@ -77,6 +74,7 @@ public class LinearConstraintLayout extends LinearLayout {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		Functions.d("onMeasure called!");
 	}
 
 	/**
@@ -86,6 +84,7 @@ public class LinearConstraintLayout extends LinearLayout {
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
+		Functions.d("onLayout called");
 		if (changed) {
 			final int count = getChildCount();
 			for (int i = 0; i < count; i++) {
@@ -99,12 +98,13 @@ public class LinearConstraintLayout extends LinearLayout {
 				 * Separate loop for adding constraints as view elements might
 				 * be dependent on some other view element that occurs lower
 				 * than it in the view hierarchy
+				 * 
+				 * Solver will automatically take the constraints as and when
+				 * they are added to the solver
 				 */
 				for (int pos = 0; pos < elements.size(); pos++) {
 					addConstraints(elements.get(elements.keyAt(pos)), pos);
 				}
-				// invoking the solver only once in the last
-				solver.solve();
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -125,6 +125,7 @@ public class LinearConstraintLayout extends LinearLayout {
 				.getLayoutParams();
 		if (params != null) {
 			if (params.constraint_expr == null) {
+				Functions.d("constraint_expr is null");
 				/**
 				 * Add constraint so that the linear layout's properties are
 				 * followed in the new layout as well
@@ -173,7 +174,7 @@ public class LinearConstraintLayout extends LinearLayout {
 				}
 			}
 
-			if (params.constraint_expr != null) {
+			if (params.constraint_expr != null && !params.constraint_expr.equals("no_constraint")) {
 				String[] constraints = params.constraint_expr.split(";");
 				for (String constraint : constraints) {
 					if (constraint.contains("LEQ")) {
@@ -238,7 +239,7 @@ public class LinearConstraintLayout extends LinearLayout {
 		ClLinearExpression cle = null;
 		cle = (ClLinearExpression) evaluatePostFixExpression(new InfixToPostfix().convertInfixToPostfix(parts[1]),
 				source);
-		Functions.d("The equation is "+cle.toString());
+		Functions.d("The equation is " + cle.toString());
 		Functions.d("Going to call getVariable for the LHS in addEqualityConstraint");
 		ClVariable lhs = getVariable(parts[0], source);
 		return new ClLinearEquation(lhs, cle, params.constraint_expr_strength);

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="et1" type="id"/>
+    <item name="et2" type="id"/>
+    <item name="et3" type="id"/>
+    <item name="et4" type="id"/>
+    <item name="et5" type="id"/>
+    
+    <item name="tv1" type="id"/>
+    <item name="tv2" type="id"/>
+    <item name="tv3" type="id"/>
+    <item name="tv4" type="id"/>
+    <item name="tv5" type="id"/>
+    
+    <item name="btn1" type="id"/>
+    <item name="btn2" type="id"/>
+    <item name="btn3" type="id"/>
+    <item name="btn4" type="id"/>
+    <item name="btn5" type="id"/>
+
+</resources>

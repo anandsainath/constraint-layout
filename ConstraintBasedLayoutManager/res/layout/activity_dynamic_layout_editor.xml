@@ -41,19 +41,23 @@
             style="@style/LoginFormContainer"
             android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/TV_ComponentName"
+            <Spinner
+                android:id="@+id/S_ComponentName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_component_name"
-                android:inputType="textNoSuggestions"
-                android:maxLines="1"
-                android:singleLine="true"
-                constraint:fixX="true"
-                constraint:fixY="true" />
+                android:layout_height="50dp" />
 
             <Spinner
                 android:id="@+id/S_ComponentType"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <Spinner
+                android:id="@+id/S_LayoutWidth"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <Spinner
+                android:id="@+id/S_LayoutHeight"
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />
 
@@ -71,6 +75,7 @@
                 android:id="@+id/CB_FitWidth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:padding="15dp"
                 android:text="@string/fix_width"
                 android:textSize="16sp"
@@ -81,6 +86,7 @@
                 android:id="@+id/CB_FitHeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:padding="15dp"
                 android:text="@string/fix_height"
                 android:textSize="16sp"
@@ -115,9 +121,7 @@
                 android:paddingTop="10dp"
                 android:text="@string/secondary_constraint_label"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="16sp"
-                constraint:constraint_expr="self.y = @id/CB_FitX.y + @id/CB_FitX.h"
-                constraint:constraint_expr_strength="required" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/ET_ConstraintExpr"
@@ -134,10 +138,11 @@
                 android:id="@+id/Btn_ViewLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
-                android:text="@string/action_view_layout" />
+                android:text="@string/action_view_layout"
+                constraint:fixX="true"
+                constraint:fixY="true" />
 
             <Button
                 android:id="@+id/Btn_AddComponent"

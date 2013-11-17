@@ -31,6 +31,10 @@
             android:label="@string/title_activity_dynamic_layout_editor"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
+        <activity
+            android:name="edu.gatech.constraints.demo.DynamicLayoutOutput"
+            android:label="@string/title_activity_dynamic_layout_output" >
+        </activity>
     </application>
 
 </manifest>

@@ -3,7 +3,6 @@ package edu.gatech.constraints.demo;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
 import android.widget.TextView;
 import edu.gatech.constraints.cassowary.ClStrength;
 import edu.gatech.constraints.library.LinearConstraintLayout;
