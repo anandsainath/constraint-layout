@@ -71,9 +71,9 @@ public class InfixToPostfix {
 			AL.add(stackTop);
 		}
 
-		for (int i = 0; i < AL.size(); i++) {
-			System.out.println(AL.get(i));
-		}
+		// for (int i = 0; i < AL.size(); i++) {
+		// System.out.println(AL.get(i));
+		// }
 		return AL;
 	}
 

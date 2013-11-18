@@ -2,6 +2,7 @@ package edu.gatech.constraints.library;
 
 import java.util.Iterator;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -75,7 +76,6 @@ public class LinearConstraintLayout extends LinearLayout {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		Functions.d("onMeasure called!");
 	}
 
 	/**
@@ -85,7 +85,6 @@ public class LinearConstraintLayout extends LinearLayout {
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
-		Functions.d("onLayout called");
 		if (changed) {
 			final int count = getChildCount();
 			for (int i = 0; i < count; i++) {
@@ -120,7 +119,7 @@ public class LinearConstraintLayout extends LinearLayout {
 				e.printStackTrace();
 			}
 
-			Functions.d("After solving");
+			// Functions.d("After solving");
 
 			for (int i = 0; i < elements.size(); i++) {
 				ViewElement element = elements.get(elements.keyAt(i));
@@ -130,8 +129,8 @@ public class LinearConstraintLayout extends LinearLayout {
 			ViewElement firstElement = elements.get(elements.keyAt(0));
 			ViewElement lastElement = elements.get(elements.keyAt(elements.size() - 1));
 			float measuredHeight = (lastElement.view.getHeight() + lastElement.view.getY()) - firstElement.view.getY();
-			Functions.d("Height is: " + measuredHeight);
-			Functions.d("Parent Height is: " + getHeight());
+			// Functions.d("Height is: " + measuredHeight);
+			// Functions.d("Parent Height is: " + getHeight());
 		}
 	}
 
@@ -165,7 +164,7 @@ public class LinearConstraintLayout extends LinearLayout {
 				.getLayoutParams();
 		if (params != null) {
 			if (params.constraint_expr == null) {
-				Functions.d("constraint_expr is null");
+				// Functions.d("constraint_expr is null");
 				/**
 				 * Add constraint so that the linear layout's properties are
 				 * followed in the new layout as well
@@ -195,10 +194,11 @@ public class LinearConstraintLayout extends LinearLayout {
 						 * add a constraint based on whether the linear layout
 						 * is oriented horizontally or vertically
 						 */
-						Functions.d("Position: " + position);
+						// Functions.d("Position: " + position);
 						String[] resName = getResources().getResourceName(aboveSibbling.view.getId()).split(":");
 						String resId = "@" + resName[1].trim();
-						Functions.d("Going to create constraints based on : " + resId);
+						// Functions.d("Going to create constraints based on : "
+						// + resId);
 						switch (getOrientation()) {
 						case HORIZONTAL:
 							params.constraint_expr = "self.x = " + resId + ".x + " + resId + ".w + "
@@ -219,14 +219,14 @@ public class LinearConstraintLayout extends LinearLayout {
 				for (String constraint : constraints) {
 					if (constraint.contains("LEQ")) {
 						solver.addConstraint(getInequalityConstraint(CL.Op.LEQ, element, constraint));
-						Functions.d("A LEQ constraint must have been added!");
+						// Functions.d("A LEQ constraint must have been added!");
 					} else if (constraint.contains("GEQ")) {
 						solver.addConstraint(getInequalityConstraint(CL.Op.GEQ, element, constraint));
-						Functions.d("A GEQ constraint must have been added!");
+						// Functions.d("A GEQ constraint must have been added!");
 					} else if (constraint.contains("=")) {
 						// equality constraint.
 						solver.addConstraint(addEqualityConstraint(params, element, constraint));
-						Functions.d("A constraint must have been added!");
+						// Functions.d("A constraint must have been added!");
 					}
 				}
 			}
@@ -263,8 +263,8 @@ public class LinearConstraintLayout extends LinearLayout {
 		ClLinearExpression cle = null;
 		cle = (ClLinearExpression) evaluatePostFixExpression(new InfixToPostfix().convertInfixToPostfix(parts[1]),
 				source);
-		Functions.d("The equation is " + cle.toString());
-		Functions.d("Going to call getVariable for the LHS in addEqualityConstraint");
+		// Functions.d("The equation is " + cle.toString());
+		// Functions.d("Going to call getVariable for the LHS in addEqualityConstraint");
 		if (parts[0].contains(".w")) {
 			source.setWidthConstraint();
 		} else if (parts[0].contains(".h")) {
@@ -297,12 +297,11 @@ public class LinearConstraintLayout extends LinearLayout {
 			} else {
 				try {
 					float constant;
-					if(str.matches("(\\d+)dp")) {
+					if (str.matches("(\\d+)dp")) {
 						float dip = Float.parseFloat(str.replaceAll("(\\d+)dp", "$1"));
 						constant = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, displayMetrics);
-						Functions.d("Dip after conversion is "+constant);
-					}
-					else {
+						// Functions.d("Dip after conversion is " + constant);
+					} else {
 						constant = Float.parseFloat(str);
 					}
 					stack.add(new ClLinearExpression(constant));
@@ -314,7 +313,7 @@ public class LinearConstraintLayout extends LinearLayout {
 							stack.add(new ClLinearExpression(this.screenDimensions.Xvalue()));
 						}
 					} else {
-						Functions.d("Added new variable");
+						// Functions.d("Added new variable");
 						stack.add(new ClLinearExpression(getVariable(str, source)));
 					}
 				}
@@ -326,7 +325,8 @@ public class LinearConstraintLayout extends LinearLayout {
 	private ClVariable getVariable(String notation, ViewElement source) {
 		ViewElement temp = null;
 		ClVariable variable = null;
-		Functions.d("GetVariable called, Notation:" + notation + ", source:");
+		// Functions.d("GetVariable called, Notation:" + notation +
+		// ", source:");
 		if (notation.contains(DEPENDENT_VAR)) {
 			String dependent_name = notation.replace(DEPENDENT_VAR, "");
 			String names[] = dependent_name.split("[.]", 2);
@@ -335,12 +335,13 @@ public class LinearConstraintLayout extends LinearLayout {
 		} else if (notation.contains("self")) {
 			temp = source;
 		} else if (notation.length() > 0) {
-			Functions.d(notation + " is being parsed as an integer!");
+			// Functions.d(notation + " is being parsed as an integer!");
 			return new ClVariable(Integer.parseInt(notation));
 		}
 
 		if (notation.contains(".w")) {
-			Functions.d("Width procesed: " + temp.dimension.widthValue() + " notation: " + notation);
+			// Functions.d("Width procesed: " + temp.dimension.widthValue() +
+			// " notation: " + notation);
 			variable = temp.dimension.Width();
 		} else if (notation.contains(".h")) {
 			variable = temp.dimension.Height();

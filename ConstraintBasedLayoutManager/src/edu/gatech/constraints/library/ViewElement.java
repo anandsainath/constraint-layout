@@ -10,13 +10,15 @@ public class ViewElement {
 	View view;
 	boolean widthConstraint = false;
 	boolean heightConstraint = false;
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	public ViewElement(View view) {
 		this.view = view;
 		topLeft = new ClPoint(view.getX(), view.getY());
 		dimension = new ClDimension(view.getHeight(), view.getWidth());
-		debug();
+		if (DEBUG) {
+			debug();
+		}
 	}
 
 	public void debug() {

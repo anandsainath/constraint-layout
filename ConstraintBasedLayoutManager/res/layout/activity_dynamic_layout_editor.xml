@@ -138,10 +138,12 @@
                 android:id="@+id/Btn_ViewLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
-                android:enabled="false"
-                android:text="@string/action_view_layout" />
+                android:text="@string/action_view_layout"
+                constraint:constraint_expr="self.y =  @id/S_ConstraintStrength.y + @id/S_ConstraintStrength.h + 15dp"
+                constraint:constraint_expr_strength="required" />
 
             <Button
                 android:id="@+id/Btn_AddComponent"
@@ -151,7 +153,7 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:text="@string/action_add_component"
-                constraint:constraint_expr="self.x = @id/Btn_ViewLayout.x + @id/Btn_ViewLayout.w + 10 ; self.y =  @id/Btn_ViewLayout.y"
+                constraint:constraint_expr="self.x = @id/Btn_ViewLayout.x + @id/Btn_ViewLayout.w + 10dp ; self.y =  @id/Btn_ViewLayout.y"
                 constraint:constraint_expr_strength="required" />
         </edu.gatech.constraints.library.LinearConstraintLayout>
     </ScrollView>
