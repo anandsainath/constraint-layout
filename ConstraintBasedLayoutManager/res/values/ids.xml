@@ -18,5 +18,7 @@
     <item name="btn3" type="id"/>
     <item name="btn4" type="id"/>
     <item name="btn5" type="id"/>
+    
+    <item name="TV_DummyText1" type="id"/>
 
 </resources>

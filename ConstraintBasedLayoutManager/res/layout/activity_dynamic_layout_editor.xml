@@ -132,7 +132,7 @@
             <Spinner
                 android:id="@+id/S_ConstraintStrength"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="50dp" />
 
             <Button
                 android:id="@+id/Btn_ViewLayout"
@@ -140,14 +140,14 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
-                android:text="@string/action_view_layout"
-                constraint:fixX="true"
-                constraint:fixY="true" />
+                android:enabled="false"
+                android:text="@string/action_view_layout" />
 
             <Button
                 android:id="@+id/Btn_AddComponent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:text="@string/action_add_component"

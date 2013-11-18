@@ -19,17 +19,26 @@
 
     <string-array name="component_type">
         <item>EditText</item>
+        <item>TextView</item>
         <item>Button</item>
+        <item>Select a component type</item>
     </string-array>
-    <string-array name="dimension">
+    <string-array name="dimension_width">
         <item>Match Parent</item>
         <item>Wrap Content</item>
+        <item>Select a width dimension</item>
+    </string-array>
+    <string-array name="dimension_height">
+        <item>Match Parent</item>
+        <item>Wrap Content</item>
+        <item>Select a height dimension</item>
     </string-array>
     <string-array name="constraint_strength">
         <item>Required</item>
         <item>Strong</item>
         <item>Medium</item>
         <item>Weak</item>
+        <item>Select a constraint strength</item>
     </string-array>
     <string-array name="res_ids">
         <item>et1</item>
@@ -47,8 +56,10 @@
         <item>btn3</item>
         <item>btn4</item>
         <item>btn5</item>
+        <item>Select a component name</item>
     </string-array>
 
+    <string name="image">image</string>
     <string name="title_activity_dynamic_layout_output">DynamicLayoutOutput</string>
     <string name="title_activity_app_home">Constraint Layout Manager</string>
 

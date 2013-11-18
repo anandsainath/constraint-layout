@@ -62,7 +62,10 @@ public class DynamicLayoutOutput extends Activity {
 			lp.constraint_expr = item.constraintExpr;
 			lp.constraint_expr_strength = item.constraint_strength;
 		}
-		view.setId(getResources().getIdentifier("@id/"+item.componentName, "id", getApplicationContext().getPackageName()));
+		
+		view.setId(getResources().getIdentifier(item.componentName, "id", getApplicationContext().getPackageName()));
+		Functions.d(getResources().getIdentifier(item.componentName, "id", getApplicationContext().getPackageName()) +" is the ID set");
+		Functions.d("Item Name: "+item.componentName);
 		lp.fixHeight = item.fixHeight;
 		lp.fixWidth = item.fixWidth;
 		lp.fixX = item.fixX;

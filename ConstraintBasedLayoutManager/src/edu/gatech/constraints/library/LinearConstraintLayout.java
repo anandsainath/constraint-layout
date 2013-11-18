@@ -123,8 +123,15 @@ public class LinearConstraintLayout extends LinearLayout {
 			Functions.d("After solving");
 
 			for (int i = 0; i < elements.size(); i++) {
-				elements.get(elements.keyAt(i)).setDimension();
+				ViewElement element = elements.get(elements.keyAt(i));
+				element.setDimension();
 			}
+
+			ViewElement firstElement = elements.get(elements.keyAt(0));
+			ViewElement lastElement = elements.get(elements.keyAt(elements.size() - 1));
+			float measuredHeight = (lastElement.view.getHeight() + lastElement.view.getY()) - firstElement.view.getY();
+			Functions.d("Height is: " + measuredHeight);
+			Functions.d("Parent Height is: " + getHeight());
 		}
 	}
 
