@@ -2,13 +2,13 @@ package edu.gatech.constraints.library;
 
 import java.util.Iterator;
 import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.SparseArray;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -289,7 +289,15 @@ public class LinearConstraintLayout extends LinearLayout {
 				stack.push(b);
 			} else {
 				try {
-					double constant = Double.parseDouble(str);
+					float constant;
+					if(str.matches("(\\d+)dp")) {
+						float dip = Float.parseFloat(str.replaceAll("(\\d+)dp", "$1"));
+						constant = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, displayMetrics);
+						Functions.d("Dip after conversion is "+constant);
+					}
+					else {
+						constant = Float.parseFloat(str);
+					}
 					stack.add(new ClLinearExpression(constant));
 				} catch (NumberFormatException nfe) {
 					if (str.contains("screen")) {
