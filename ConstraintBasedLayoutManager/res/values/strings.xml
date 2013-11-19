@@ -18,9 +18,9 @@
     <string name="dynamic_editor">Dynamic Layout Editor</string>
     <string name="padding_demo">Padding Demo</string>
     <string name="topPadding_text">Text padded 50dp from the top</string>
-    <string name="bottomPadding_text">Text padded 30dp from the bottom</string>
-    <string name="leftPadding_text">Text padded 30dp from the left</string>
-    <string name="rightPadding_text">Text padded 30dp from the right</string>
+    <string name="bottomPadding_text">Text padded 50dp from the bottom</string>
+    <string name="leftPadding_text">Text padded 50dp from the left</string>
+    <string name="rightPadding_text">Text padded 50dp from the right</string>
     
 
     <string-array name="component_type">
