@@ -27,5 +27,10 @@ public class AppHome extends Activity {
 		Intent intent = new Intent(this, DynamicLayoutEditor.class);
 		startActivity(intent);
 	}
+	
+	public void paddingDemo(View view) {
+		Intent intent = new Intent(this, PaddingDemo.class);
+		startActivity(intent);
+	}
 
 }

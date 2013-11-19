@@ -13,6 +13,10 @@
         <attr name="fixHeight" format="boolean" />
         <attr name="fixX" format="boolean" />
         <attr name="fixY" format="boolean" />
+        <attr name="right_padding" format="string" />
+        <attr name="left_padding" format="string" />
+        <attr name="top_padding" format="string" />
+        <attr name="bottom_padding" format="string" />
     </declare-styleable>
 
 </resources>

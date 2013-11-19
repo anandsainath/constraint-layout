@@ -118,7 +118,7 @@ public class LinearConstraintLayout extends LinearLayout {
 				Functions.d("Error occured" + e.getMessage());
 				e.printStackTrace();
 			}
-
+			
 			// Functions.d("After solving");
 
 			for (int i = 0; i < elements.size(); i++) {
@@ -162,6 +162,20 @@ public class LinearConstraintLayout extends LinearLayout {
 	public void addConstraints(ViewElement element, int position) throws Exception {
 		LinearConstraintLayout.LayoutParams params = (LinearConstraintLayout.LayoutParams) element.view
 				.getLayoutParams();
+		
+		if (params.right_padding != null) {
+			params.constraint_expr += " ; self.x = screen.width - self.w - "+params.right_padding+" - "+params.rightMargin;
+		}
+		if (params.left_padding != null) {
+			params.constraint_expr += " ; self.x = "+params.left_padding+" + "+params.leftMargin;
+		}
+		if (params.top_padding != null) {
+			params.constraint_expr += " ; self.y = "+params.top_padding+" + "+params.topMargin;
+		}
+		if (params.bottom_padding != null) {
+			params.constraint_expr += " ; self.y = screen.height - self.h - "+params.bottom_padding+" - "+params.bottomMargin;
+		}
+		
 		if (params != null) {
 			if (params.constraint_expr == null) {
 				// Functions.d("constraint_expr is null");
@@ -226,11 +240,12 @@ public class LinearConstraintLayout extends LinearLayout {
 					} else if (constraint.contains("=")) {
 						// equality constraint.
 						solver.addConstraint(addEqualityConstraint(params, element, constraint));
+						Functions.d(solver.toString());
 						// Functions.d("A constraint must have been added!");
 					}
 				}
 			}
-
+			
 		}// end params != null
 	}
 
@@ -296,14 +311,7 @@ public class LinearConstraintLayout extends LinearLayout {
 				stack.push(b);
 			} else {
 				try {
-					float constant;
-					if (str.matches("(\\d+)dp")) {
-						float dip = Float.parseFloat(str.replaceAll("(\\d+)dp", "$1"));
-						constant = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, displayMetrics);
-						// Functions.d("Dip after conversion is " + constant);
-					} else {
-						constant = Float.parseFloat(str);
-					}
+					float constant = pixelValue(str);
 					stack.add(new ClLinearExpression(constant));
 				} catch (NumberFormatException nfe) {
 					if (str.contains("screen")) {
@@ -363,6 +371,16 @@ public class LinearConstraintLayout extends LinearLayout {
 		}
 		return contains;
 	}
+	
+	private float pixelValue(String pixelString) {
+		if (pixelString.matches("(\\d+)dp")) {
+			float dip = Float.parseFloat(pixelString.replaceAll("(\\d+)dp", "$1"));
+			return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, displayMetrics);
+			// Functions.d("Dip after conversion is " + constant);
+		} else {
+			return Float.parseFloat(pixelString);
+		}
+	}
 
 	/**
 	 * Any layout manager that doesn't scroll will want this.
@@ -402,6 +420,7 @@ public class LinearConstraintLayout extends LinearLayout {
 		public String constraint_expr;
 		public ClStrength constraint_expr_strength = ClStrength.weak;
 		public Boolean fixWidth, fixHeight, fixX, fixY;
+		public String left_padding, right_padding, top_padding, bottom_padding;
 
 		public static final int INVALID_ID = -1;
 
@@ -417,6 +436,10 @@ public class LinearConstraintLayout extends LinearLayout {
 			fixWidth = a.getBoolean(R.styleable.CLP_fixWidth, true);
 			fixX = a.getBoolean(R.styleable.CLP_fixX, false);
 			fixY = a.getBoolean(R.styleable.CLP_fixY, false);
+			left_padding = a.getString(R.styleable.CLP_left_padding);
+			right_padding = a.getString(R.styleable.CLP_right_padding);
+			top_padding = a.getString(R.styleable.CLP_top_padding);
+			bottom_padding = a.getString(R.styleable.CLP_bottom_padding);
 
 			switch (a.getInt(R.styleable.CLP_constraint_expr_strength, 4)) {
 			case 1:

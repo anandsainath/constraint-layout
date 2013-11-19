@@ -39,6 +39,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
+        <activity
+            android:name="edu.gatech.constraints.demo.PaddingDemo"
+            android:label="@string/padding_demo" >
+        </activity>
+        </application>
 
 </manifest>
