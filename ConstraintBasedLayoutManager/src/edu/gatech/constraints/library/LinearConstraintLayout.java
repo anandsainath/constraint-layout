@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.View;
@@ -78,6 +79,48 @@ public class LinearConstraintLayout extends LinearLayout {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
+	public void resolveConstraints() {
+		
+		final int count = getChildCount();
+		for (int i = 0; i < count; i++) {
+			View view = getChildAt(i);
+			ViewElement element = new ViewElement(view);
+			elements.append(view.getId(), element);
+		}
+
+		try {
+			/**
+			 * Separate loop for adding constraints as view elements might be
+			 * dependent on some other view element that occurs lower than it in
+			 * the view hierarchy
+			 * 
+			 * Solver will automatically take the constraints as and when they
+			 * are added to the solver
+			 * 
+			 * Stay constraints need to be added first, followed by normal
+			 * constraints
+			 */
+			for (int pos = 0; pos < elements.size(); pos++) {
+				addStayConstraints(elements.get(elements.keyAt(pos)), pos);
+			}
+
+			for (int pos = 0; pos < elements.size(); pos++) {
+				addConstraints(elements.get(elements.keyAt(pos)), pos);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Functions.d("Error occured" + e.getMessage());
+			e.printStackTrace();
+		}
+
+//		Functions.d("After solving");
+//		Functions.d(elements.size() + " are the number of elements!");
+		for (int i = 0; i < elements.size(); i++) {
+			ViewElement element = elements.get(elements.keyAt(i));
+			element.setDimension();
+		}
+	}
+
 	/**
 	 * Function that will solve the constraints and will layout the children
 	 * once the constraints are met.
@@ -85,53 +128,16 @@ public class LinearConstraintLayout extends LinearLayout {
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
-		if (changed) {
-			final int count = getChildCount();
-			for (int i = 0; i < count; i++) {
-				View view = getChildAt(i);
-				ViewElement element = new ViewElement(view);
-				elements.append(view.getId(), element);
-			}
+		Log.d("Output", "" + changed);
 
-			try {
-				/**
-				 * Separate loop for adding constraints as view elements might
-				 * be dependent on some other view element that occurs lower
-				 * than it in the view hierarchy
-				 * 
-				 * Solver will automatically take the constraints as and when
-				 * they are added to the solver
-				 * 
-				 * Stay constraints need to be added first, followed by normal
-				 * constraints
-				 */
-				for (int pos = 0; pos < elements.size(); pos++) {
-					addStayConstraints(elements.get(elements.keyAt(pos)), pos);
-				}
-
-				for (int pos = 0; pos < elements.size(); pos++) {
-					addConstraints(elements.get(elements.keyAt(pos)), pos);
-				}
-
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				Functions.d("Error occured" + e.getMessage());
-				e.printStackTrace();
-			}
-			
-			// Functions.d("After solving");
-
-			for (int i = 0; i < elements.size(); i++) {
-				ViewElement element = elements.get(elements.keyAt(i));
-				element.setDimension();
-			}
-
-			ViewElement firstElement = elements.get(elements.keyAt(0));
-			ViewElement lastElement = elements.get(elements.keyAt(elements.size() - 1));
-			float measuredHeight = (lastElement.view.getHeight() + lastElement.view.getY()) - firstElement.view.getY();
-			// Functions.d("Height is: " + measuredHeight);
-			// Functions.d("Parent Height is: " + getHeight());
-		}
+		resolveConstraints();
+		// ViewElement firstElement = elements.get(elements.keyAt(0));
+		// ViewElement lastElement = elements.get(elements.keyAt(elements.size()
+		// - 1));
+		// float measuredHeight = (lastElement.view.getHeight() +
+		// lastElement.view.getY()) - firstElement.view.getY();
+		// Functions.d("Height is: " + measuredHeight);
+		// Functions.d("Parent Height is: " + getHeight());
 	}
 
 	private void addStayConstraints(ViewElement element, int position) throws ExCLRequiredFailure, ExCLInternalError {
@@ -162,20 +168,22 @@ public class LinearConstraintLayout extends LinearLayout {
 	public void addConstraints(ViewElement element, int position) throws Exception {
 		LinearConstraintLayout.LayoutParams params = (LinearConstraintLayout.LayoutParams) element.view
 				.getLayoutParams();
-		
+
 		if (params.right_padding != null) {
-			params.constraint_expr += " ; self.x = screen.width - self.w - "+params.right_padding+" - "+params.rightMargin;
+			params.constraint_expr += " ; self.x = screen.width - self.w - " + params.right_padding + " - "
+					+ params.rightMargin;
 		}
 		if (params.left_padding != null) {
-			params.constraint_expr += " ; self.x = "+params.left_padding+" + "+params.leftMargin;
+			params.constraint_expr += " ; self.x = " + params.left_padding + " + " + params.leftMargin;
 		}
 		if (params.top_padding != null) {
-			params.constraint_expr += " ; self.y = "+params.top_padding+" + "+params.topMargin;
+			params.constraint_expr += " ; self.y = " + params.top_padding + " + " + params.topMargin;
 		}
 		if (params.bottom_padding != null) {
-			params.constraint_expr += " ; self.y = screen.height - self.h - "+params.bottom_padding+" - "+params.bottomMargin;
+			params.constraint_expr += " ; self.y = screen.height - self.h - " + params.bottom_padding + " - "
+					+ params.bottomMargin;
 		}
-		
+
 		if (params != null) {
 			if (params.constraint_expr == null) {
 				// Functions.d("constraint_expr is null");
@@ -240,12 +248,11 @@ public class LinearConstraintLayout extends LinearLayout {
 					} else if (constraint.contains("=")) {
 						// equality constraint.
 						solver.addConstraint(addEqualityConstraint(params, element, constraint));
-						Functions.d(solver.toString());
 						// Functions.d("A constraint must have been added!");
 					}
 				}
 			}
-			
+
 		}// end params != null
 	}
 
@@ -371,7 +378,7 @@ public class LinearConstraintLayout extends LinearLayout {
 		}
 		return contains;
 	}
-	
+
 	private float pixelValue(String pixelString) {
 		if (pixelString.matches("(\\d+)dp")) {
 			float dip = Float.parseFloat(pixelString.replaceAll("(\\d+)dp", "$1"));

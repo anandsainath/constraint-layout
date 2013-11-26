@@ -17,11 +17,11 @@
     <string name="dynamic_demo">Dynamic Constraint Demo</string>
     <string name="dynamic_editor">Dynamic Layout Editor</string>
     <string name="padding_demo">Padding Demo</string>
+    <string name="circular_demo">Circular Demo</string>
     <string name="topPadding_text">Text padded 50dp from the top</string>
     <string name="bottomPadding_text">Text padded 50dp from the bottom</string>
     <string name="leftPadding_text">Text padded 50dp from the left</string>
     <string name="rightPadding_text">Text padded 50dp from the right</string>
-    
 
     <string-array name="component_type">
         <item>EditText</item>
@@ -68,5 +68,7 @@
     <string name="image">image</string>
     <string name="title_activity_dynamic_layout_output">DynamicLayoutOutput</string>
     <string name="title_activity_app_home">Constraint Layout Manager</string>
+    <string name="title_activity_circular_layout">CircularLayout</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

@@ -32,5 +32,10 @@ public class AppHome extends Activity {
 		Intent intent = new Intent(this, PaddingDemo.class);
 		startActivity(intent);
 	}
+	
+	public void circularDemo(View view){
+		Intent intent = new Intent(this, CircularLayout.class);
+		startActivity(intent);
+	}
 
 }

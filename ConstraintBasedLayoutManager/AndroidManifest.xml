@@ -43,6 +43,10 @@
             android:name="edu.gatech.constraints.demo.PaddingDemo"
             android:label="@string/padding_demo" >
         </activity>
-        </application>
+        <activity
+            android:name="edu.gatech.constraints.demo.CircularLayout"
+            android:label="@string/title_activity_circular_layout" >
+        </activity>
+    </application>
 
 </manifest>

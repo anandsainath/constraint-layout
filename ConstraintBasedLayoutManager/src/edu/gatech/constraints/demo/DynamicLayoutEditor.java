@@ -128,13 +128,10 @@ public class DynamicLayoutEditor extends Activity {
 				String viewTypeStr = (String) componentType.getSelectedItem();
 
 				if (viewTypeStr.equals("EditText")) {
-					Functions.d("View type is edit text");
 					componentElement = DynamicView.ConstraintItem.ComponentType.EDIT_TEXT;
 				} else if (viewTypeStr.equals("TextView")) {
-					Functions.d("View type is text view");
 					componentElement = DynamicView.ConstraintItem.ComponentType.TEXT_VIEW;
 				} else {
-					Functions.d("View type is text view");
 					componentElement = DynamicView.ConstraintItem.ComponentType.BUTTON;
 				}
 
@@ -151,8 +148,7 @@ public class DynamicLayoutEditor extends Activity {
 				} else {
 					layout_height = LinearConstraintLayout.LayoutParams.WRAP_CONTENT;
 				}
-				Functions.d((String) componentName.getSelectedItem());
-
+			
 				DynamicView.getInstance().addItem(fixX.isChecked(), fixY.isChecked(), fixWidth.isChecked(),
 						fixHeight.isChecked(), (String) componentName.getSelectedItem(), expr, constraint_strength,
 						componentElement, layout_width, layout_height);

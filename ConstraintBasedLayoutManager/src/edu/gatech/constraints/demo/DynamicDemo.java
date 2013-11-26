@@ -48,8 +48,7 @@ public class DynamicDemo extends Activity {
 		LP_TextView1.constraint_expr_strength = ClStrength.required;
 		TV_TextView1.setLayoutParams(LP_TextView1);
 		rootLayout.addView(TV_TextView1);
-		Functions.d("The first text view is added to the rootLayout!");
-
+		
 		/**
 		 * Declaring the second dummy text view and setting its view and layout
 		 * parameters including its constraints.
@@ -68,13 +67,10 @@ public class DynamicDemo extends Activity {
 		LP_TextView2.fixY = true;
 		TV_TextView2.setLayoutParams(LP_TextView2);
 		rootLayout.addView(TV_TextView2);
-		Functions.d("The second text view is added to the rootLayout!");
 		/**
 		 * Set the content view to the rootLayout that was created.
 		 */
-		Functions.d("Before setContentView is called");
 		setContentView(rootLayout);
-		Functions.d("After setContentView is called");
 	}
 
 }
